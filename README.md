@@ -1,86 +1,98 @@
-# TradeSetup — نسخهٔ سازگارتر با شبکه‌های ایران
-# TradeSetup — Iran Network Compatibility Notes
-
-## فارسی
-
-### معرفی
-این راهنما تغییرات نسخهٔ سازگارتر TradeSetup با شرایط ناپایدار شبکه را توضیح می‌دهد. این تغییرات تضمین نمی‌کنند که سایت روی همهٔ اپراتورها و شبکه‌های ایران کار کند؛ دسترسی به سرویس‌های خارجی همچنان به وضعیت شبکه بستگی دارد.
-
-### فایل‌های بسته
-- `TradeSetup-upgraded-iran-compatible.html` — فایل اصلی صفحه.
-- `sw.js` — سرویس‌ورکر برای ذخیرهٔ پوستهٔ استاتیک سایت.
-- `iran-network-compatibility.md` — توضیحات فنی تغییرات سازگاری شبکه.
-- `README.md` — همین راهنمای فارسی و انگلیسی.
-
-### تغییرات اصلی
-- حذف وابستگی مستقیم به Google Fonts و استفاده از فونت‌های محلی/سیستمی.
-- مهلت زمانی برای درخواست داده‌های بازار و یک بار تلاش مجدد برای خطاهای موقت، timeout و خطاهای سرور 5xx.
-- اعتبارسنجی اولیهٔ داده‌های بازار.
-- ذخیرهٔ بهترین‌تلاشِ آخرین پاسخ معتبر در `localStorage` با کلید `ts-market-cache-v1` و امکان نمایش دادهٔ ذخیره‌شده هنگام قطعی.
-- مدیریت وضعیت آفلاین و اتصال مجدد.
-- بارگذاری TradingView فقط در صورت نیاز، همراه با timeout و پیام جایگزین.
-- مدیریت خطا برای API اخبار؛ اگر API تنظیم نشده باشد، پیوندی به صفحهٔ اخبار فوری ارزدیجیتال نمایش داده می‌شود.
-- سرویس‌ورکر برای ذخیرهٔ فایل‌های استاتیک هم‌مبدأ؛ پاسخ‌های API خارجی را ذخیره نمی‌کند.
-
-### استقرار در GitHub Pages
-1. از فایل HTML یک کپی به نام `index.html` تهیه کنید.
-2. فایل `index.html` و فایل `sw.js` را در پوشهٔ ریشهٔ مخزن قرار دهید.
-3. تغییرات را commit و push کنید.
-4. در تنظیمات مخزن، GitHub Pages را برای شاخه و پوشهٔ موردنظر فعال کنید.
-5. سایت را در مرورگر باز کنید و درخواست‌های شبکه و کنسول را بررسی کنید.
-
-سرویس‌ورکر معمولاً پس از اولین بازدید موفق آنلاین می‌تواند پوستهٔ سایت را برای بازدیدهای بعدی ذخیره کند. مسیر استقرار و محدودهٔ سرویس‌ورکر را بررسی کنید تا با مسیر سایت در GitHub Pages مطابقت داشته باشد.
-
-### محدودیت‌ها
-- پاسخ‌های API خارجی از طریق سرویس‌ورکر cache نمی‌شوند.
-- داده‌های بازار ذخیره‌شده ممکن است قدیمی باشند؛ نشانگر تازگی را بررسی کنید.
-- بارگذاری TradingView، APIهای بازار و اخبار همچنان به دسترسی شبکه و در دسترس بودن سرویس‌های مربوطه وابسته است.
-- سازگاری با تمام اپراتورها، ISPها یا شرایط فیلترینگ آزمایش و تضمین نشده است.
-- این بسته به‌خودی‌خود به GitHub ارسال یا در مخزن commit نشده است.
-- در این بسته مجوز نرم‌افزاری (license) مشخصی تعریف نشده است.
-
-### وضعیت بررسی
-طبق بررسی قبلی، ۲۰ آزمون و بررسی ایستای کد موفق گزارش شده بود. آزمون واقعی در مرورگر و روی اپراتورها/ISPهای مختلف انجام نشده است.
+# TradeSetup
+### Smart Tools for Traders | ابزارهای کاربردی برای معامله‌گران
 
 ---
 
-## English
+# 🇮🇷 معرفی سایت
 
-### Overview
-This guide describes a TradeSetup variant with improved network-error handling and fewer external dependencies. These changes do not guarantee availability on every Iranian carrier or network; access to external services still depends on network conditions.
+## TradeSetup چیست؟
 
-### Package files
-- `TradeSetup-upgraded-iran-compatible.html` — main page.
-- `sw.js` — service worker for caching the same-origin static shell.
-- `iran-network-compatibility.md` — technical notes about the compatibility changes.
-- `README.md` — this bilingual guide.
+TradeSetup یک وب‌سایت با هدف ساده‌تر کردن فرایند بررسی بازارهای مالی و کمک به معامله‌گران در تحلیل و آماده‌سازی معاملات است. این سایت تلاش می‌کند اطلاعات بازار، نمودارهای قیمتی و دسترسی به اخبار مرتبط را در محیطی ساده و کاربردی گرد هم بیاورد تا کاربران بتوانند اطلاعات موردنیاز خود را راحت‌تر بررسی کنند.
 
-### Main changes
-- Removed the direct Google Fonts dependency and uses local/system font fallbacks.
-- Market requests have a timeout and one retry for transient failures, timeouts, and server-side 5xx errors.
-- Basic validation of market data.
-- Best-effort caching of the last valid response in `localStorage` under `ts-market-cache-v1`, allowing saved data to be shown during outages.
-- Offline and reconnect handling.
-- Loads TradingView on demand, with a timeout and fallback messaging.
-- Handles news API errors; when no API is configured, it provides a link to the ArzDigital breaking-news page.
-- The service worker caches the same-origin static shell and does not cache external API responses.
+## 🎯 اهداف اصلی
 
-### Deploying to GitHub Pages
-1. Copy or rename the HTML file to `index.html`.
-2. Put `index.html` and `sw.js` in the repository root.
-3. Commit and push the changes.
-4. Enable GitHub Pages for the desired branch and directory in repository settings.
-5. Open the site and inspect network requests and the browser console.
+- **دسترسی آسان به اطلاعات بازار:** مشاهده و بررسی اطلاعات بازار در یک محیط یکپارچه.
+- **کمک به تحلیل تکنیکال:** دسترسی به نمودارهای قیمتی برای بررسی روندها و رفتار قیمت.
+- **پیگیری اخبار بازار:** دسترسی به منابع خبری مرتبط برای آگاهی از رویدادهای تأثیرگذار.
+- **بهبود فرایند تصمیم‌گیری:** کمک به کاربران برای سازمان‌دهی بهتر اطلاعات پیش از ورود به معامله.
+- **تجربه کاربری ساده:** طراحی محیطی کاربردی با تمرکز بر دسترسی سریع و آسان.
+- **بهبود عملکرد در شرایط اختلال شبکه:** تلاش برای مدیریت خطاهای موقت و استفاده از اطلاعات ذخیره‌شده در شرایط مناسب.
 
-The service worker generally needs a successful online visit before it can cache the site shell for later visits. Check the deployment path and service-worker scope against the repository's GitHub Pages URL.
+## ⚙️ امکانات سایت
 
-### Limitations
-- External API responses are not cached by the service worker.
-- Cached market data may be stale; check its freshness indicator.
-- TradingView, market APIs, and news services still depend on network access and service availability.
-- Compatibility with every carrier, ISP, or filtering condition has not been tested or guaranteed.
-- This package has not itself been pushed or committed to GitHub.
-- No software license terms are specified in this package.
+### اطلاعات بازار
+نمایش اطلاعات بازار از طریق سرویس‌های دادهٔ متصل به سایت، با توجه به در دسترس بودن منابع مربوطه.
 
-### Validation status
-A previous check reported 20 passing tests and successful static checks. Real-browser testing and testing across different carriers/ISPs were not performed.
+### نمودارهای قیمتی
+امکان استفاده از نمودارهای TradingView برای بررسی حرکات قیمت و انجام تحلیل تکنیکال، در صورت بارگذاری موفق این سرویس.
+
+### اخبار و رویدادها
+فراهم کردن مسیر دسترسی به اخبار مرتبط با بازارهای مالی و رمزارزها، بر اساس منابع خبری پیکربندی‌شده.
+
+### مدیریت خطاهای شبکه
+در نسخهٔ سازگارشده، درخواست‌های بازار دارای محدودیت زمانی هستند و برای برخی خطاهای موقت دوباره تلاش می‌شود. همچنین امکان استفاده از آخرین دادهٔ معتبر ذخیره‌شده در مرورگر وجود دارد؛ این اطلاعات ممکن است به‌روز نباشند.
+
+### پشتیبانی محدود از حالت آفلاین
+برخی فایل‌های ثابت سایت می‌توانند پس از بارگذاری موفق در مرورگر ذخیره شوند. با این حال، اطلاعات زندهٔ بازار، نمودارها و اخبار خارجی ممکن است بدون اتصال اینترنت در دسترس نباشند.
+
+## 👥 این سایت برای چه کسانی مناسب است؟
+
+- معامله‌گران بازارهای مالی
+- علاقه‌مندان به تحلیل تکنیکال
+- فعالان بازار رمزارزها
+- افرادی که می‌خواهند اطلاعات بازار و ابزارهای تحلیلی را در یک محیط ساده‌تر بررسی کنند
+
+## ⚠️ سلب مسئولیت
+
+TradeSetup یک ابزار اطلاعاتی و کمکی است و هیچ‌گونه تضمینی برای سودآوری معاملات ارائه نمی‌دهد. اطلاعات سایت ممکن است با تأخیر نمایش داده شوند یا موقتاً در دسترس نباشند. محتوای این وب‌سایت توصیهٔ مالی یا پیشنهاد قطعی خریدوفروش نیست. کاربران باید پیش از تصمیم‌گیری، اطلاعات را بررسی کرده و اصول مدیریت ریسک را رعایت کنند.
+
+---
+
+# 🇬🇧 About TradeSetup
+
+## What is TradeSetup?
+
+TradeSetup is a website designed to simplify the process of reviewing financial markets and help traders prepare for their trading decisions. It aims to bring market information, price charts, and access to relevant news together in a simple and practical environment.
+
+## 🎯 Main Objectives
+
+- **Easy access to market information:** Review available market data in one place.
+- **Technical analysis support:** Access price charts to study market trends and price movements.
+- **Market news access:** Follow relevant news and events that may affect financial markets.
+- **Better-informed decisions:** Help users organize relevant information before entering a trade.
+- **Simple user experience:** Provide a practical interface focused on accessibility and ease of use.
+- **Improved network resilience:** Attempt to handle temporary network failures and use cached information when available.
+
+## ⚙️ Website Features
+
+### Market Information
+Displays market information through connected data services, subject to the availability of those services.
+
+### Price Charts
+Provides access to TradingView charts for studying price movements and performing technical analysis when the service loads successfully.
+
+### News and Market Events
+Offers access to relevant financial-market and cryptocurrency news through the configured news sources.
+
+### Network Error Handling
+The compatibility-oriented version applies timeouts to market requests and retries certain temporary failures. It may also use the last valid market response stored in the browser. Cached information may be outdated.
+
+### Limited Offline Support
+Some static website files can be stored in the browser after a successful visit. Live market data, external charts, and news services may still require an active internet connection.
+
+## 👥 Who Is TradeSetup For?
+
+- Financial market traders
+- Technical analysis enthusiasts
+- Cryptocurrency market participants
+- Users who want to review market information and analysis tools in a simpler environment
+
+## ⚠️ Disclaimer
+
+TradeSetup is an informational and supporting tool. It does not guarantee trading profits or successful outcomes. Website information may be delayed or temporarily unavailable. Nothing on this website constitutes financial advice or a definitive recommendation to buy or sell an asset. Users should independently verify information and apply appropriate risk-management practices before making trading decisions.
+
+---
+
+## Project Information
+
+TradeSetup is an ongoing project focused on making market information and trading-related tools easier to access. The availability of individual features depends on the deployed version and the external services used by the website.
